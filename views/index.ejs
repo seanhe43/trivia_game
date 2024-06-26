@@ -7,7 +7,7 @@
   <body>
     <h1>Trivia Game</h1>
     <p>Welcome to trivia game! Select configuration below: </p>
-    <form action="/submit" method="get">
+    <form action="/submit" method="get" class="form">
       <label>Number of questions</label>
       <input type="number" id="amount" name="amount" min="1" max="10" value="5">
       <br>
@@ -59,7 +59,16 @@
         <option value="boolean">True/False</option>
       </select>
       <br>
-      <input type="submit" value="Start Game">
+      <input type="submit" value="Start Game" id="submit">
     </form>
+    <% if (typeof scores !== 'undefined') { %>
+      <p>Previous Scores: <strong><%- scores %></strong></p>
+      <form action="/score" method="get" class="form">
+        <input type="submit" value="Clear Scores">
+      </form>
+    <% } else { %>
+      <p>Play a game to set a score!</p>
+    <% } %>
+
   </body>
 </html>

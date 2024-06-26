@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-
+    let test_cheat = "";
     //console.log(questions);
 
     let ind = 0;
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("question-container").innerHTML = question_text;
             let answers = questions[ind].incorrect_answers;
             let insert = Math.floor(Math.random() * answers.length + 1);
-            answers.splice(insert, 0, questions[ind].correct_answer + "√");
+            answers.splice(insert, 0, questions[ind].correct_answer + test_cheat);
             //console.log(answers);
             for (let i = 0; i < answers.length; i++) {
                 let label = document.createElement("label");
@@ -30,16 +30,18 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("question-count").innerText = `${ind+1}.`;
             document.getElementById("scorebox").innerText = `Score: ${score}/${ind}`;
         }
-        else {
-            document.getElementById("question-container").innerHTML = `Thanks for playing! <br>You scored ${score}/${ind} <br><a href="/">Play again?</a>`;
+        else { //Game over
+            document.getElementById("question-container").innerHTML = `Thanks for playing! <br>You scored ${score}/${ind} <br><a href="/score?score=${score}&total=${ind}">Play again?</a>`;
             document.getElementById("question-count").style.display = "none";
             document.getElementById("scorebox").style.display = "none";
             document.getElementById("submit-answer").style.display = "none";
+            
         }
         
     }
 
     async function buttonClicked() {
+        document.getElementById("submit-answer").disabled = true;
         let radios = document.getElementsByName("options");
         let val = "";
         for (let i = 0; i < radios.length; i++) {
@@ -49,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         if(!(val === "")){
-            if(val === questions[ind].correct_answer + "√") {
+            if(val === questions[ind].correct_answer + test_cheat) {
                 var res = "Correct!";
                 score++;
             }
@@ -63,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ind++;
             showNextQuestion();
         }
+        document.getElementById("submit-answer").disabled = false;
     }
 
     document.getElementById("submit-answer").addEventListener("click", buttonClicked);
